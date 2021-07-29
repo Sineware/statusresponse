@@ -1,0 +1,23 @@
+{
+  "title": "Sineware System Status",
+  "services": [
+    {
+      "name": "Main Website",
+      "type": "webservice",
+      "url": "https://sineware.ca"
+    },
+    {
+      "name": "Cloud API (Toronto Edge)",
+      "type": "webservice",
+      "url": "https://update.sineware.ca"
+    },
+    {
+      "name": "Cloud API (Entry Gateway)",
+      "type": "webservice",
+      "url": "https://karen.sineware.ca"
+    }
+  ],
+  "alerts": [
+
+  ]
+}
