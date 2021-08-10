@@ -28,8 +28,22 @@ function callAPI($method, $url, $data = false)
 
     return json_decode($result);
 }
-$config = callAPI("GET", "http://localhost:3000/api/config");
-$state = callAPI("GET", "http://localhost:3000/api/state");
+
+$config = null;
+$state = null;
+try {
+    $config = callAPI("GET", "http://localhost:3000/api/config");
+    $state = callAPI("GET", "http://localhost:3000/api/state");
+    if($config == NULL) {
+        echo("This status page is currently unavailable (Could not connect to backend server).");
+        die();
+    }
+} catch (Exception $e) {
+    echo("This status page is currently unavailable (Could not connect to backend server). ");
+    echo('Caught exception: ' .  $e->getMessage());
+    die();
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -49,7 +63,16 @@ $state = callAPI("GET", "http://localhost:3000/api/state");
     <hr />
     <h1><?php echo($config->title) ?></h1>
     <hr />
-    <?php //var_dump($state); ?>
+    <?php
+    foreach ($config->alerts as &$alert) {
+        ?>
+        <div class="alert alert-<?php echo($alert->type) ?>" role="alert">
+            <h4 class="alert-heading"><?php echo($alert->title) ?></h4>
+            <?php echo($alert->content) ?>
+        </div>
+        <?php
+    }
+    ?>
     <div class="row row-cols-1 row-cols-md-3">
         <?php
         foreach ($state as &$service) {
@@ -81,7 +104,7 @@ $state = callAPI("GET", "http://localhost:3000/api/state");
                                         echo("(HTTP " . $service->status . ": Backend fetch failed)");
                                         break;
                                     case 408:
-                                        echo("(HTTP " . $service->status . ": Request Timeout)");
+                                        echo("(Request Timeout)");
                                         break;
                                     default:
                                         echo("(HTTP " . $service->status . ")");
@@ -103,7 +126,6 @@ $state = callAPI("GET", "http://localhost:3000/api/state");
     <p>Powered by <a href="https://github.com/Sineware/statusresponse">Sineware StatusResponse</a></p>
 
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

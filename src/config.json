@@ -12,12 +12,21 @@
       "url": "https://update.sineware.ca"
     },
     {
-      "name": "Cloud API (Entry Gateway)",
+      "name": "Sineware Waterloo Datacentre",
       "type": "webservice",
       "url": "https://karen.sineware.ca"
     }
   ],
   "alerts": [
-
+    {
+      "type": "info",
+      "title": "Under Construction",
+      "content": "Sineware Cloud Services are still under construction, regular disruptions are expected!"
+    },
+    {
+      "type": "warning",
+      "title": "Warning: Unstable Services",
+      "content": "The Sineware Waterloo Datacentre is experiencing internet instability. This affects Cloud API edges globally. There is currently no fix ETA."
+    }
   ]
 }
